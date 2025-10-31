@@ -1,0 +1,86 @@
+:root{
+  --accent1:#ffffff;
+  --accent2:#2a5298;
+  --accent3:#e74c3c;
+  --bg:#f6f8fb;
+  --card:#ffffff;
+  --muted:#6b7280;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;color:#111;background:var(--bg);-webkit-font-smoothing:antialiased}
+/* Header */
+header{
+  position:sticky;top:0;z-index:1200;
+  background:linear-gradient(90deg,var(--accent1),var(--accent2));
+  color:white;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;gap:16px;
+  box-shadow:0 6px 20px rgba(16,24,40,0.25)
+}
+.brand {display:flex;align-items:center;gap:12px}
+.brand img{height:44px;width:auto;display:block}
+.brand h1{font-size:1.05rem;letter-spacing:1px;margin:0;font-weight:700}
+nav.desktop{display:flex;gap:14px;align-items:center}
+nav.desktop a{color:rgba(255,255,255,0.95);text-decoration:none;font-weight:600;padding:6px 8px;border-radius:6px}
+nav.desktop a:hover{background:rgba(255,255,255,0.08)}
+/* Hamburger */
+.menu-toggle{display:flex;align-items:center;gap:12px}
+.hambutton{background:transparent;border:0;color:white;cursor:pointer;width:44px;height:44px;padding:8px;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.hambutton:hover{background:rgba(255,255,255,0.06)}
+/* dropdown */
+.mobile-menu{position:fixed;right:16px;top:64px;background:linear-gradient(180deg, #fff, #f8fafc);box-shadow:0 10px 30px rgba(2,6,23,0.15);border-radius:12px;padding:8px;min-width:200px;display:none;flex-direction:column;gap:6px;z-index:1300}
+.mobile-menu a{color:#0f172a;text-decoration:none;padding:10px;border-radius:8px;font-weight:600}
+.mobile-menu a:hover{background:#eef2ff}
+/* Hero */
+.hero{padding:72px 20px 48px;display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;background:linear-gradient(180deg,var(--accent1),var(--accent2));color:white}
+.hero h2{font-size:2.6rem;margin:0;letter-spacing:0.5px}
+.hero p{max-width:900px;color:rgba(255,255,255,0.92);line-height:1.6}
+.cta{background:white;color:var(--accent2);padding:10px 18px;border-radius:999px;font-weight:700;border:0;cursor:pointer}
+/* Stats */
+.stats {display:flex;gap:14px;flex-wrap:wrap;justify-content:center;padding:28px 20px;background:var(--card)}
+.stat {min-width:180px;padding:18px;border-radius:12px;background:linear-gradient(135deg,var(--accent1),var(--accent2));color:white;text-align:center;box-shadow:0 8px 24px rgba(30,60,114,0.12)}
+.stat .num{font-size:2rem;font-weight:800}
+.stat .lbl{opacity:0.95}
+/* Services */
+.services{padding:42px 20px;max-width:1200px;margin:0 auto}
+.section-title{display:block;text-align:center;color:var(--accent1);font-size:1.85rem;margin-bottom:20px;font-weight:800}
+.service-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.service-card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 8px 24px rgba(10,15,40,0.06);display:flex;gap:12px;align-items:flex-start}
+.icon-box{width:46px;height:46px;border-radius:10px;background:linear-gradient(180deg,var(--accent2),var(--accent1));display:flex;align-items:center;justify-content:center;color:white;flex-shrink:0}
+.service-card h3{margin:0 0 6px 0;font-size:1.05rem;color:var(--accent1)}
+.service-card p{margin:0;color:var(--muted);line-height:1.45}
+/* Clients */
+.clients{padding:28px 20px;background:linear-gradient(180deg,#fff,#fbfdff)}
+.clients .slider{display:flex;gap:12px;overflow:hidden}
+.client-card{min-width:220px;padding:16px;border-radius:12px;background:var(--card);border-left:4px solid var(--accent2);font-weight:700;box-shadow:0 6px 18px rgba(2,6,23,0.06)}
+/* Map Section (above footer) */
+.map-section{padding:28px 12px;background:var(--card)}
+.map-wrap{max-width:1100px;margin:0 auto;padding:18px;border-radius:14px;background:linear-gradient(180deg,#ffffff,#fbfdff);box-shadow:0 12px 40px rgba(2,6,23,0.06)}
+.map-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.map-title h3{margin:0;color:var(--accent1)}
+/* SVG map styling */
+svg.india-map{width:100%;height:auto;display:block}
+.india-outline{fill:#f1f5f9;stroke:#cbd5e1;stroke-width:1}
+.marker { cursor:pointer; }
+.pulse { transform-origin:center; animation:pulse 1.8s infinite; }
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.6); opacity: 0.6; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.dot { transition: r 0.18s; stroke:#fff; stroke-width:1.2 }
+.marker:hover .dot { r:6.8px; }
+.label { font-size:12px; font-weight:700; fill:#0f172a; pointer-events:none; opacity:0 }
+.marker:hover ~ .label, .marker:hover .label { opacity:1; transform:translateY(-8px); transition:opacity .18s }
+.connecting { stroke:var(--accent2); stroke-width:1.4; stroke-dasharray:6 4; opacity:0.8 }
+/* Tooltip card */
+.tt {position: absolute;background: #0b1220;color:white;padding:8px 10px;border-radius:8px;font-size:13px;box-shadow:0 10px 30px rgba(2,6,23,0.35);display:none;z-index:2000}
+/* footer */
+footer{background:linear-gradient(90deg,#0b1220,#0b1530);color:#dbeafe;padding:28px 20px;text-align:center;margin-top:20px}
+footer p{margin:6px 0}
+/* responsive */
+@media (max-width:900px){
+  .hero h2{font-size:1.6rem}
+  .hero p{font-size:0.95rem}
+  .brand h1{display:none}
+  nav.desktop{display:none}
+  .mobile-menu{right:10px;left:10px}
+}
