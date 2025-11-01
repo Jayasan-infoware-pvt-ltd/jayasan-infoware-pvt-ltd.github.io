@@ -16,7 +16,7 @@ header{
   box-shadow:0 6px 20px rgba(16,24,40,0.25)
 }
 .brand {display:flex;align-items:center;gap:12px}
-.brand img{height:90px;width:100%;display:block}
+.brand img{height:90px;width:720px;display:block}
 .brand h1{font-size:1.05rem;letter-spacing:1px;margin:0;font-weight:700}
 nav.desktop{display:flex;gap:14px;align-items:center}
 nav.desktop a{color:rgba(255,255,255,0.95);text-decoration:none;font-weight:600;padding:6px 8px;border-radius:6px}
