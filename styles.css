@@ -23,7 +23,7 @@ nav.desktop{display:flex;gap:14px;align-items:center}
 nav.desktop a{color:rgba(255,255,255,0.95);text-decoration:none;font-weight:600;padding:6px 8px;border-radius:6px}
 nav.desktop a:hover{background:rgba(255,255,255,0.08)}
 /* Hamburger */
-.menu-toggle{display:flex;align-items:center;gap:12px}
+.menu-toggle{display:none;align-items:center;gap:12px}
 .hambutton{background:transparent;border:0;color:white;cursor:pointer;width:44px;height:44px;padding:8px;border-radius:8px;display:flex;align-items:center;justify-content:center}
 .hambutton:hover{background:rgba(255,255,255,0.06)}
 /* dropdown */
