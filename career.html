@@ -93,7 +93,7 @@
   <p>&copy; <span id="year2"></span> Jayasan Infoware Pvt. Ltd. -- All Rights Reserved</p>
 </footer>
 
-<!-- ✅ INLINE JS SECTION -->
+<!-- ✅ INLINE JS -->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
   emailjs.init("B9cRp5FtdvX1_JkvJ"); // your EmailJS public key
@@ -120,12 +120,22 @@ document.addEventListener("DOMContentLoaded", function() {
     try {
       const formData = new FormData();
       formData.append("file", file);
-      const uploadResponse = await fetch("https://file.io/?expires=1d", {
+
+      // Upload to mirrored.to
+      const uploadResponse = await fetch("https://www.mirrored.to/upload", {
         method: "POST",
-        body: formData
+        body: formData,
       });
-      const uploadResult = await uploadResponse.json();
-      fileUrl = uploadResult.link;
+
+      const uploadText = await uploadResponse.text();
+      // Extract link from response HTML
+      const match = uploadText.match(/https:\/\/www\.mirrored\.to\/files\/[^\"]+/);
+      if (match && match[0]) {
+        fileUrl = match[0];
+      } else {
+        throw new Error("Failed to extract file link from mirrored.to");
+      }
+
     } catch (err) {
       alert("Failed to upload resume. Please try again.");
       console.error(err);
