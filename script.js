@@ -147,20 +147,52 @@
 
 // ✅ Initialize EmailJS
 document.addEventListener("DOMContentLoaded", function() {
-  // Initialize EmailJS here
   emailjs.init("B9cRp5FtdvX1_JkvJ"); // your public key
 
   const form = document.getElementById("jobForm");
+  const resumeFile = document.getElementById("resumeFile");
   const successMsg = document.getElementById("successMsg");
   const sendBtn = form.querySelector("button");
 
-  form.addEventListener("submit", function(e) {
+  form.addEventListener("submit", async function(e) {
     e.preventDefault();
-
-    sendBtn.textContent = "Sending...";
+    sendBtn.textContent = "Uploading...";
     sendBtn.disabled = true;
 
-    emailjs.sendForm('service_fb7aklu', 'template_1tvlztd', this)
+    // Step 1: Upload file to a free hosting service (like File.io API)
+    const file = resumeFile.files[0];
+    if (!file) return alert("Please attach your resume first.");
+
+    let fileUrl = "";
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const uploadResponse = await fetch("https://file.io/?expires=1d", {
+        method: "POST",
+        body: formData
+      });
+      const uploadResult = await uploadResponse.json();
+      fileUrl = uploadResult.link; // Get shareable link
+    } catch (err) {
+      alert("Failed to upload resume. Please try again.");
+      console.error(err);
+      sendBtn.textContent = "Send Application";
+      sendBtn.disabled = false;
+      return;
+    }
+
+    sendBtn.textContent = "Sending...";
+
+    // Step 2: Send email with file link
+    const formData = {
+      user_name: form.user_name.value,
+      user_email: form.user_email.value,
+      user_number: form.user_number.value,
+      position: form.position.value,
+      resume_link: fileUrl,
+    };
+
+    emailjs.send("service_fb7aklu", "template_1tvlztd", formData)
       .then(() => {
         successMsg.style.display = "block";
         sendBtn.textContent = "Send Application";
