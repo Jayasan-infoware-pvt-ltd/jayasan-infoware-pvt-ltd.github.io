@@ -145,26 +145,33 @@
     g.setAttribute('tabindex','0');
   });
 
-// Initialize EmailJS
+// ✅ Initialize EmailJS
 (function(){
-  emailjs.init("B9cRp5FtdvX1_JkvJ"); // Replace with your EmailJS Public Key
+  emailjs.init("B9cRp5FtdvX1_JkvJ"); // your Public Key
 })();
 
 document.addEventListener("DOMContentLoaded", function() {
   const form = document.getElementById("jobForm");
   const successMsg = document.getElementById("successMsg");
+  const sendBtn = form.querySelector("button");
 
   form.addEventListener("submit", function(e) {
     e.preventDefault();
 
+    sendBtn.textContent = "Sending...";
+    sendBtn.disabled = true;
+
     emailjs.sendForm('service_fb7aklu', 'template_2942lbd', this)
       .then(() => {
         successMsg.style.display = "block";
+        sendBtn.textContent = "Send Application";
+        sendBtn.disabled = false;
         form.reset();
       }, (error) => {
         alert('Failed to send application. Please try again later.');
-        console.error(error);
+        console.error('EmailJS Error:', error);
+        sendBtn.textContent = "Send Application";
+        sendBtn.disabled = false;
       });
   });
 });
-
