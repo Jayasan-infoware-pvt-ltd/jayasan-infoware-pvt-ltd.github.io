@@ -87,6 +87,16 @@ nav.desktop a:hover {
   nav.desktop{display:none}
   .mobile-menu{right:10px;left:10px}
 }
+.title-block {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:4px; /* reduced from 12px */
+}
+
+.j-title, .h-title {
+  margin:0;
+}
 /* Hamburger */
 .menu-toggle{display:flex;align-items:center;gap:12px}
 .hambutton{background:transparent;border:0;color:white;cursor:pointer;width:44px;height:44px;padding:8px;border-radius:8px;display:flex;align-items:center;justify-content:center}
