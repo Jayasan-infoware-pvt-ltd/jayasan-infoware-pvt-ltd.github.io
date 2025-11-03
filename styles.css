@@ -137,6 +137,7 @@ nav.desktop a:hover {
 .service-card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 8px 24px rgba(10,15,40,0.06);display:flex;gap:12px;align-items:flex-start}
 .icon-box{width:46px;height:46px;border-radius:10px;background:linear-gradient(180deg,var(--accent2),var(--accent1));display:flex;align-items:center;justify-content:center;color:white;flex-shrink:0}
 .service-card h3{margin:0 0 6px 0;font-size:1.05rem;color:var(--accent1)}
+.service-card h4{margin:0 0 6px 0;font-size:1.05rem;color:var(--accent4)}
 .service-card p{margin:0;color:var(--muted);line-height:1.45}
 /* Clients */
 .clients{padding:28px 20px;background:linear-gradient(180deg,#fff,#fbfdff)}
