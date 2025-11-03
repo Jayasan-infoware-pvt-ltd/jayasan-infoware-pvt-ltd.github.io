@@ -208,3 +208,87 @@ footer p{margin:6px 0}
   nav.desktop{display:none}
   .mobile-menu{right:10px;left:10px}
 }
+
+/*  career */
+
+/* form section */
+.form-section {
+  background:#fff;
+  color:#1e293b;
+  max-width:600px;
+  margin:60px auto;
+  padding:40px 30px;
+  border-radius:14px;
+  box-shadow:0 8px 25px rgba(0,0,0,0.15);
+}
+
+.form-section h2 {
+  text-align:center;
+  color:var(--accent2);
+  font-size:1.8rem;
+  margin-bottom:10px;
+}
+
+.form-section p {
+  text-align:center;
+  color:#64748b;
+  margin-bottom:25px;
+  font-size:0.95rem;
+}
+
+label {
+  display:block;
+  font-weight:600;
+  color:var(--accent2);
+  margin-bottom:6px;
+}
+
+input, select {
+  width:100%;
+  padding:10px;
+  border:1px solid #cbd5e1;
+  border-radius:8px;
+  margin-bottom:14px;
+  font-size:1rem;
+  outline:none;
+  transition:0.3s;
+}
+
+input:focus, select:focus {
+  border-color:var(--accent2);
+  box-shadow:0 0 0 2px rgba(42,82,152,0.2);
+}
+
+button {
+  background:var(--accent2);
+  color:#fff;
+  border:none;
+  padding:12px 18px;
+  border-radius:8px;
+  width:100%;
+  font-size:1.1rem;
+  font-weight:600;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+button:hover {
+  background:#1e3c72;
+}
+
+#successMsg {
+  display:none;
+  color:green;
+  text-align:center;
+  font-weight:600;
+  margin-top:18px;
+}
+
+@media(max-width:600px) {
+  .form-section {
+    margin:20px;
+    padding:25px 18px;
+  }
+}
+
+
