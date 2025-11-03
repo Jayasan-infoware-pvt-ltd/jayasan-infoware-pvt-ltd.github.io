@@ -146,11 +146,10 @@
   });
 
 // ✅ Initialize EmailJS
-(function(){
-  emailjs.init("B9cRp5FtdvX1_JkvJ"); // your Public Key
-})();
-
 document.addEventListener("DOMContentLoaded", function() {
+  // Initialize EmailJS here
+  emailjs.init("B9cRp5FtdvX1_JkvJ"); // your public key
+
   const form = document.getElementById("jobForm");
   const successMsg = document.getElementById("successMsg");
   const sendBtn = form.querySelector("button");
@@ -167,9 +166,10 @@ document.addEventListener("DOMContentLoaded", function() {
         sendBtn.textContent = "Send Application";
         sendBtn.disabled = false;
         form.reset();
-      }, (error) => {
-        alert('Failed to send application. Please try again later.');
-        console.error('EmailJS Error:', error);
+      })
+      .catch((error) => {
+        alert("Failed to send application. Please try again later.");
+        console.error("EmailJS error:", error);
         sendBtn.textContent = "Send Application";
         sendBtn.disabled = false;
       });
