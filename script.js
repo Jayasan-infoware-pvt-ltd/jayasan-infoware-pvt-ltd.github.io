@@ -160,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function() {
     sendBtn.textContent = "Sending...";
     sendBtn.disabled = true;
 
-    emailjs.sendForm('service_fb7aklu', 'template_2942lbd', this)
+    emailjs.sendForm('service_fb7aklu', 'template_1tvlztd', this)
       .then(() => {
         successMsg.style.display = "block";
         sendBtn.textContent = "Send Application";
