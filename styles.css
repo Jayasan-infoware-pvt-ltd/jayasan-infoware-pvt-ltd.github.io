@@ -32,12 +32,12 @@ header{
   display:flex;
   flex-direction:column;
   align-items:center;
-  line-height:2.2;
+  line-height:1.1;
 }
 
 .logo-wrap img {
-  height:70px;   /* increased height for stretch */
-  width:auto;
+  height:120px;   /* increased height for stretch */
+  width:100%;
   display:block;
   transition:transform .3s ease;
 }
