@@ -144,3 +144,27 @@
   document.querySelectorAll('.marker').forEach(g=>{
     g.setAttribute('tabindex','0');
   });
+
+// Initialize EmailJS
+(function(){
+  emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your EmailJS Public Key
+})();
+
+document.addEventListener("DOMContentLoaded", function() {
+  const form = document.getElementById("jobForm");
+  const successMsg = document.getElementById("successMsg");
+
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this)
+      .then(() => {
+        successMsg.style.display = "block";
+        form.reset();
+      }, (error) => {
+        alert('Failed to send application. Please try again later.');
+        console.error(error);
+      });
+  });
+});
+
