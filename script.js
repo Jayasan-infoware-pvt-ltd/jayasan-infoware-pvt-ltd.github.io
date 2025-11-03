@@ -1,5 +1,4 @@
-<script>
-  // Mobile menu toggle
+ // Mobile menu toggle
   const hambtn = document.getElementById('hambtn');
   const mobileMenu = document.getElementById('mobileMenu');
   let menuOpen = false;
@@ -145,5 +144,3 @@
   document.querySelectorAll('.marker').forEach(g=>{
     g.setAttribute('tabindex','0');
   });
-
-</script>
