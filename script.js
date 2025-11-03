@@ -147,7 +147,7 @@
 
 // Initialize EmailJS
 (function(){
-  emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your EmailJS Public Key
+  emailjs.init("B9cRp5FtdvX1_JkvJ"); // Replace with your EmailJS Public Key
 })();
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", function() {
   form.addEventListener("submit", function(e) {
     e.preventDefault();
 
-    emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this)
+    emailjs.sendForm('service_fb7aklu', 'template_2942lbd', this)
       .then(() => {
         successMsg.style.display = "block";
         form.reset();
