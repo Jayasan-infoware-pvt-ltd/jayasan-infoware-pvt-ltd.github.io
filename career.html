@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Careers - Jayasan Infoware Pvt. Ltd.</title>
+<link rel="stylesheet" href="style.css">
+<script defer src="script.js"></script>
+</head>
+
+<body>
+
+  <!-- ✅ HEADER (exactly same as index.html) -->
+  <!-- HEADER -->
+<header>
+  <div class="brand" aria-label="Jayasan brand">
+    <div class="logo-wrap">
+      <img src="jayasanlogo2021-removebg-preview.png" alt="Jayasan logo" />
+      <p class="iso-text"></p>
+    </div>
+    <p class="iso-text">An ISO Certified Company</p>
+     <p class="iso-text">9000 20000-1 27000-1</p>
+  </div>
+
+  <!-- Desktop nav -->
+  <nav class="desktop" aria-label="Main navigation">
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#clients">Clients</a>
+    <a href="#map">Presence</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <!-- menu toggles -->
+  <div class="menu-toggle">
+    <button class="hambutton" id="hambtn" aria-label="Open menu" title="Menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+        <path d="M4 7h16M4 12h16M4 17h16" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- mobile dropdown -->
+  <div class="mobile-menu" id="mobileMenu" role="menu" aria-hidden="true">
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#clients">Clients</a>
+    <a href="#map">Presence</a>
+    <a href="#contact">Contact</a>
+  </div>
+</header>
+
+  <!-- ✅ CAREER FORM SECTION -->
+  <section class="form-section">
+    <h2>Join Our Team</h2>
+    <p>Submit your application and our HR team will contact you within 24–48 business hours.</p>
+
+    <form id="jobForm">
+      <label>Full Name*</label>
+      <input type="text" name="user_name" required placeholder="Enter your full name" />
+
+      <label>Email Address*</label>
+      <input type="email" name="user_email" required placeholder="Enter your email" />
+
+      <label>Phone Number*</label>
+      <input type="tel" name="user_number" required placeholder="Enter your phone number" />
+
+      <label>Position Applying For*</label>
+      <select name="position" required>
+        <option value="">Select a role</option>
+        <option value="Software Developer">Software Developer</option>
+        <option value="UI/UX Designer">UI/UX Designer</option>
+        <option value="Project Manager">Project Manager</option>
+        <option value="Marketing Executive">Marketing Executive</option>
+      </select>
+
+      <label>Upload Resume (PDF only)*</label>
+      <input type="file" name="resume" accept="application/pdf" required />
+
+      <button type="submit">Send Application</button>
+    </form>
+
+    <p id="successMsg">✅ Your application has been submitted successfully. We’ll get back to you soon!</p>
+  </section>
+
+  <!-- ✅ FOOTER (exactly same as index.html) -->
+  <!-- FOOTER -->
+<footer id="contact" aria-label="Contact and footer">
+   <img src="An_ISOIEC_Certified_Company-removebg-preview.png" alt="#" class="footer-img">
+  <p><strong>Jayasan Infoware Private Limited</strong> -- Dehradun, Uttarakhand</p>
+  <p>📧 <a href="mailto:info@jayasaninfoware.com" style="color:#a7c4ff">info@jayasaninfoware.com</a> &nbsp; | &nbsp; 📞 +91-XXXXXXXXXX</p>
+  <p>&copy; <span id="year2"></span> Jayasan Infoware Pvt. Ltd. -- All Rights Reserved</p>
+</footer>
+
+</body>
+</html>
