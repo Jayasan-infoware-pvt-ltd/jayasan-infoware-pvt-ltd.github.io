@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Careers - Jayasan Infoware Pvt. Ltd.</title>
 <link rel="stylesheet" href="styles.css">
+
+<!-- EmailJS library -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script defer src="script.js"></script>
 </head>
 
 <body>
 
-  <!-- ✅ HEADER (exactly same as index.html) -->
-  <!-- HEADER -->
+<!-- HEADER -->
 <header>
   <div class="brand" aria-label="Jayasan brand">
     <div class="logo-wrap">
@@ -20,7 +20,7 @@
       <p class="iso-text"></p>
     </div>
     <p class="iso-text">An ISO Certified Company</p>
-     <p class="iso-text">9000 20000-1 27000-1</p>
+    <p class="iso-text">9000 20000-1 27000-1</p>
   </div>
 
   <!-- Desktop nav -->
@@ -44,7 +44,7 @@
 
   <!-- mobile dropdown -->
   <div class="mobile-menu" id="mobileMenu" role="menu" aria-hidden="true">
-   <a href="index.html">Home</a>
+    <a href="index.html">Home</a>
     <a href="#about">About</a>
     <a href="#services">Services</a>
     <a href="#clients">Clients</a>
@@ -53,47 +53,113 @@
   </div>
 </header>
 
-  <!-- ✅ CAREER FORM SECTION -->
-  <section class="form-section">
-    <h2>Join Our Team</h2>
+<!-- CAREER FORM SECTION -->
+<section class="form-section">
+  <h2>Join Our Team</h2>
 
-    <form id="jobForm">
-      <label>Full Name*</label>
-      <input type="text" name="user_name" required placeholder="Enter your full name" />
+  <form id="jobForm">
+    <label>Full Name*</label>
+    <input type="text" name="user_name" required placeholder="Enter your full name" />
 
-      <label>Email Address*</label>
-      <input type="email" name="user_email" required placeholder="Enter your email" />
+    <label>Email Address*</label>
+    <input type="email" name="user_email" required placeholder="Enter your email" />
 
-      <label>Phone Number*</label>
-      <input type="tel" name="user_number" required placeholder="Enter your phone number" />
+    <label>Phone Number*</label>
+    <input type="tel" name="user_number" required placeholder="Enter your phone number" />
 
-      <label>Position Applying For*</label>
-      <select name="position" required>
-        <option value="">Select a role</option>
-        <option value="Help Desk">Help Desk</option>
-        <option value="Network Engineer">Network Engineer</option>
-        <option value="IT Support Engineer">IT Support Engineer</option>
-        <option value="Printer Engineer">Printer Engineer</option>
-      </select>
+    <label>Position Applying For*</label>
+    <select name="position" required>
+      <option value="">Select a role</option>
+      <option value="Help Desk">Help Desk</option>
+      <option value="Network Engineer">Network Engineer</option>
+      <option value="IT Support Engineer">IT Support Engineer</option>
+      <option value="Printer Engineer">Printer Engineer</option>
+    </select>
 
-      <label>Upload Resume (PDF only)*</label>
-      <input type="file" id="resumeFile" accept="application/pdf" required />
+    <label>Upload Resume (PDF only)*</label>
+    <input type="file" id="resumeFile" accept="application/pdf" required />
 
+    <button class="cta" type="submit">Send Application</button>
+  </form>
 
-      <button class="cta" type="submit">Send Application</button>
-    </form>
+  <p id="successMsg" style="display:none;">✅ Your application has been submitted successfully. We’ll get back to you soon!</p>
+</section>
 
-    <p id="successMsg">✅ Your application has been submitted successfully. We’ll get back to you soon!</p>
-  </section>
-
-  <!-- ✅ FOOTER (exactly same as index.html) -->
-  <!-- FOOTER -->
+<!-- FOOTER -->
 <footer id="contact" aria-label="Contact and footer">
-   <img src="An_ISOIEC_Certified_Company-removebg-preview.png" alt="#" class="footer-img">
+  <img src="An_ISOIEC_Certified_Company-removebg-preview.png" alt="#" class="footer-img">
   <p><strong>Jayasan Infoware Private Limited</strong> -- Dehradun, Uttarakhand</p>
   <p>📧 <a href="mailto:info@jayasaninfoware.com" style="color:#a7c4ff">info@jayasaninfoware.com</a> &nbsp; | &nbsp; 📞 +91-XXXXXXXXXX</p>
   <p>&copy; <span id="year2"></span> Jayasan Infoware Pvt. Ltd. -- All Rights Reserved</p>
 </footer>
+
+<!-- ✅ INLINE JS SECTION -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  emailjs.init("B9cRp5FtdvX1_JkvJ"); // your EmailJS public key
+
+  const form = document.getElementById("jobForm");
+  const resumeFile = document.getElementById("resumeFile");
+  const successMsg = document.getElementById("successMsg");
+  const sendBtn = form.querySelector("button");
+
+  form.addEventListener("submit", async function(e) {
+    e.preventDefault();
+    sendBtn.textContent = "Uploading...";
+    sendBtn.disabled = true;
+
+    const file = resumeFile.files[0];
+    if (!file) {
+      alert("Please attach your resume first.");
+      sendBtn.textContent = "Send Application";
+      sendBtn.disabled = false;
+      return;
+    }
+
+    let fileUrl = "";
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const uploadResponse = await fetch("https://file.io/?expires=1d", {
+        method: "POST",
+        body: formData
+      });
+      const uploadResult = await uploadResponse.json();
+      fileUrl = uploadResult.link;
+    } catch (err) {
+      alert("Failed to upload resume. Please try again.");
+      console.error(err);
+      sendBtn.textContent = "Send Application";
+      sendBtn.disabled = false;
+      return;
+    }
+
+    sendBtn.textContent = "Sending...";
+
+    const formData = {
+      user_name: form.user_name.value,
+      user_email: form.user_email.value,
+      user_number: form.user_number.value,
+      position: form.position.value,
+      resume_link: fileUrl,
+    };
+
+    emailjs.send("service_fb7aklu", "template_1tvlztd", formData)
+      .then(() => {
+        successMsg.style.display = "block";
+        sendBtn.textContent = "Send Application";
+        sendBtn.disabled = false;
+        form.reset();
+      })
+      .catch((error) => {
+        alert("Failed to send application. Please try again later.");
+        console.error("EmailJS error:", error);
+        sendBtn.textContent = "Send Application";
+        sendBtn.disabled = false;
+      });
+  });
+});
+</script>
 
 </body>
 </html>
