@@ -63,77 +63,50 @@
 </footer>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-  emailjs.init("B9cRp5FtdvX1_JkvJ"); // your EmailJS public key
+const UPLOAD_URL = "https://script.google.com/macros/s/AKfycbx_O93z8x5pUQDeCKhV3T7rIUQFS25Anq-B0UVx1QyuRzF-6M5ooCRx3E69q9BnXNYOAQ/exec"; // your deployed URL
 
-  const UPLOAD_URL = "https://script.google.com/macros/s/AKfycbygzQllSo3fntEp4vsiZTehHjkR7EKUas7SFZPkM6eF7DzFG9m-BiXKFFQE-lSytBg1xw/exec"; // 👈 replace with your new Apps Script URL
-  const form = document.getElementById("jobForm");
-  const resumeFile = document.getElementById("resumeFile");
-  const successMsg = document.getElementById("successMsg");
-  const sendBtn = form.querySelector("button");
+async function uploadFileToDrive(file) {
+  const reader = new FileReader();
 
-  form.addEventListener("submit", async function(e) {
-    e.preventDefault();
-    sendBtn.textContent = "Uploading...";
-    sendBtn.disabled = true;
+  return new Promise((resolve, reject) => {
+    reader.onload = async () => {
+      try {
+        const base64 = reader.result; // data:application/pdf;base64,...
+        const formData = new FormData();
+        formData.append("file", base64);
+        formData.append("filename", file.name);
+        formData.append("mimetype", file.type);
 
-    const file = resumeFile.files[0];
-    if (!file) {
-      alert("Please attach your resume first.");
-      sendBtn.textContent = "Send Application";
-      sendBtn.disabled = false;
-      return;
-    }
+        const response = await fetch(UPLOAD_URL, {
+          method: "POST",
+          body: formData,
+        });
 
-    try {
-      // Convert file to Base64 properly
-      const base64 = await new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result.split(",")[1]);
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
-
-      // Prepare JSON body
-      const uploadPayload = {
-        fileName: file.name,
-        mimeType: file.type || "application/pdf",
-        fileData: base64,
-      };
-
-      const uploadResponse = await fetch(UPLOAD_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(uploadPayload),
-      });
-
-      const result = await uploadResponse.json();
-      if (!result.success) throw new Error(result.error);
-
-      const fileUrl = result.fileUrl;
-      sendBtn.textContent = "Sending...";
-
-      const emailData = {
-        user_name: form.user_name.value,
-        user_email: form.user_email.value,
-        user_number: form.user_number.value,
-        position: form.position.value,
-        resume_link: fileUrl,
-      };
-
-      await emailjs.send("service_fb7aklu", "template_1tvlztd", emailData);
-
-      successMsg.style.display = "block";
-      form.reset();
-      sendBtn.textContent = "Send Application";
-      sendBtn.disabled = false;
-    } catch (err) {
-      alert("Error: " + err.message);
-      console.error(err);
-      sendBtn.textContent = "Send Application";
-      sendBtn.disabled = false;
-    }
+        const result = await response.json();
+        if (!result.success) throw new Error(result.error || "Unknown error");
+        resolve(result);
+      } catch (err) {
+        reject(err);
+      }
+    };
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
   });
+}
+
+// Example integration with your form
+document.getElementById("resumeFile").addEventListener("change", async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  try {
+    const result = await uploadFileToDrive(file);
+    console.log("✅ Uploaded:", result);
+    alert("Uploaded " + result.fileName + " (" + (result.size/1024).toFixed(1) + " KB)");
+  } catch (err) {
+    console.error("❌ Upload failed:", err);
+    alert("Upload failed: " + err.message);
+  }
 });
 </script>
 </body>
