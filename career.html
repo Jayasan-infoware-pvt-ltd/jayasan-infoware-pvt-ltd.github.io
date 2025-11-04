@@ -9,7 +9,6 @@
 </head>
 
 <body>
-
 <header>
   <div class="brand">
     <div class="logo-wrap">
@@ -18,7 +17,6 @@
     <p class="iso-text">An ISO Certified Company</p>
   </div>
 
-  <!-- Desktop nav -->
   <nav class="desktop">
     <a href="index.html">Home</a>
     <a href="#about">About</a>
@@ -27,132 +25,105 @@
     <a href="#map">Presence</a>
     <a href="#contact">Contact</a>
   </nav>
-
-  <!-- Hamburger -->
-  <button class="hambutton" id="hambtn" aria-label="Menu">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-      <path d="M4 7h16M4 12h16M4 17h16" stroke="white" stroke-width="2" stroke-linecap="round"/>
-    </svg>
-  </button>
-
-  <!-- Drawer Menu -->
-  <div class="mobile-drawer" id="mobileDrawer">
-    <a href="index.html">Home</a>
-    <a href="#about">About</a>
-    <a href="#services">Services</a>
-    <a href="#clients">Clients</a>
-    <a href="#map">Presence</a>
-    <a href="#contact">Contact</a>
-  </div>
 </header>
 
-<!-- Form -->
 <section class="form-section">
   <h2>Join Our Team</h2>
+
   <form id="jobForm">
     <label>Full Name*</label>
-    <input type="text" name="user_name" required>
+    <input type="text" name="user_name" required placeholder="Enter your full name" />
 
     <label>Email Address*</label>
-    <input type="email" name="user_email" required>
+    <input type="email" name="user_email" required placeholder="Enter your email" />
 
     <label>Phone Number*</label>
-    <input type="tel" name="user_number" required>
+    <input type="tel" name="user_number" required placeholder="Enter your phone number" />
 
     <label>Position Applying For*</label>
     <select name="position" required>
       <option value="">Select a role</option>
-      <option>Help Desk</option>
-      <option>Network Engineer</option>
-      <option>IT Support Engineer</option>
-      <option>Printer Engineer</option>
+      <option value="Help Desk">Help Desk</option>
+      <option value="Network Engineer">Network Engineer</option>
+      <option value="IT Support Engineer">IT Support Engineer</option>
+      <option value="Printer Engineer">Printer Engineer</option>
     </select>
 
     <label>Upload Resume (PDF only)*</label>
-    <input type="file" id="resumeFile" accept="application/pdf" required>
+    <input type="file" id="resumeFile" accept="application/pdf" required />
 
     <button class="cta" type="submit">Send Application</button>
   </form>
-  <p id="successMsg" style="display:none;color:green;text-align:center;margin-top:10px;">
-    ✅ Your application has been submitted successfully.
-  </p>
+
+  <p id="successMsg" style="display:none;">✅ Application submitted successfully!</p>
 </section>
 
 <footer id="contact">
   <p><strong>Jayasan Infoware Pvt. Ltd.</strong> — Dehradun, Uttarakhand</p>
-  <p>📧 <a href="mailto:info@jayasaninfoware.com" style="color:#a7c4ff">info@jayasaninfoware.com</a> | 📞 +91-XXXXXXXXXX</p>
-  <p>&copy; <span id="year2"></span> Jayasan Infoware Pvt. Ltd.</p>
 </footer>
 
 <script>
-document.getElementById("year2").textContent = new Date().getFullYear();
+document.addEventListener("DOMContentLoaded", function() {
+  emailjs.init("B9cRp5FtdvX1_JkvJ"); // your EmailJS public key
 
-emailjs.init("B9cRp5FtdvX1_JkvJ"); // your EmailJS key
-
-// Drawer menu toggle
-const hambtn = document.getElementById("hambtn");
-const drawer = document.getElementById("mobileDrawer");
-hambtn.addEventListener("click", () => {
-  drawer.style.display = drawer.style.display === "flex" ? "none" : "flex";
-});
-drawer.querySelectorAll("a").forEach(a => a.addEventListener("click", ()=>drawer.style.display="none"));
-
-// Job form submission
-document.getElementById("jobForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const form = e.target;
-  const file = document.getElementById("resumeFile").files[0];
-  const btn = form.querySelector("button");
+  const UPLOAD_URL = "https://script.google.com/macros/s/AKfycbyFZe3tYIrIjZREqJEnU2IXbiAQ9LHqggLUFpalP-HQmxclzU7PYDL6RbxmfkXibCbOug/exec"; // 👈 replace with your Apps Script web app URL
+  const form = document.getElementById("jobForm");
+  const resumeFile = document.getElementById("resumeFile");
   const successMsg = document.getElementById("successMsg");
+  const sendBtn = form.querySelector("button");
 
-  if (!file) return alert("Please upload your resume first.");
-  if (file.size > 5 * 1024 * 1024) return alert("File must be below 5MB.");
+  form.addEventListener("submit", async function(e) {
+    e.preventDefault();
+    sendBtn.textContent = "Uploading...";
+    sendBtn.disabled = true;
 
-  btn.textContent = "Uploading...";
-  btn.disabled = true;
+    const file = resumeFile.files[0];
+    if (!file) {
+      alert("Please attach your resume first.");
+      sendBtn.textContent = "Send Application";
+      sendBtn.disabled = false;
+      return;
+    }
 
-  // Convert file to Base64 for Apps Script
-  const base64 = await new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result.split(",")[1]);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
+    try {
+      // Upload file to Google Drive via Apps Script
+      const formData = new FormData();
+      formData.append("file", file, file.name);
+
+      const uploadResponse = await fetch(UPLOAD_URL, {
+        method: "POST",
+        body: formData,
+      });
+      const result = await uploadResponse.json();
+
+      if (!result.success) throw new Error(result.error);
+      const fileUrl = result.fileUrl;
+
+      sendBtn.textContent = "Sending...";
+
+      const data = {
+        user_name: form.user_name.value,
+        user_email: form.user_email.value,
+        user_number: form.user_number.value,
+        position: form.position.value,
+        resume_link: fileUrl,
+      };
+
+      await emailjs.send("service_fb7aklu", "template_1tvlztd", data);
+
+      successMsg.style.display = "block";
+      form.reset();
+      sendBtn.textContent = "Send Application";
+      sendBtn.disabled = false;
+
+    } catch (err) {
+      alert("Error: " + err.message);
+      console.error(err);
+      sendBtn.textContent = "Send Application";
+      sendBtn.disabled = false;
+    }
   });
-
-  try {
-    const uploadRes = await fetch("https://script.google.com/macros/s/AKfycbxLp9G24-_sBY6du94oezMDRl0pX5dwRjPrIJ4nRdEBJN0I6BlUIYToQ3xjqlBC8tWHlQ/exec", { // 🔹 Replace with your Apps Script URL
-      method: "POST",
-      body: new URLSearchParams({
-        file: base64,
-        filename: file.name,
-        mimetype: file.type
-      }),
-    });
-    const uploadJson = await uploadRes.json();
-    if (!uploadJson.success) throw new Error(uploadJson.error);
-
-    const fileUrl = uploadJson.fileUrl;
-
-    // Send via EmailJS
-    btn.textContent = "Sending...";
-    await emailjs.send("service_fb7aklu", "template_1tvlztd", {
-      user_name: form.user_name.value,
-      user_email: form.user_email.value,
-      user_number: form.user_number.value,
-      position: form.position.value,
-      resume_link: fileUrl,
-    });
-
-    successMsg.style.display = "block";
-    form.reset();
-  } catch (err) {
-    alert("Error: " + err.message);
-  } finally {
-    btn.textContent = "Send Application";
-    btn.disabled = false;
-  }
 });
 </script>
-
 </body>
 </html>
