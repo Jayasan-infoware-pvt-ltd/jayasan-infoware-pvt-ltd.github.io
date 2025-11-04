@@ -5,26 +5,21 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Careers - Jayasan Infoware Pvt. Ltd.</title>
 <link rel="stylesheet" href="styles.css">
-
-<!-- EmailJS library -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 
 <body>
 
-<!-- HEADER -->
 <header>
-  <div class="brand" aria-label="Jayasan brand">
+  <div class="brand">
     <div class="logo-wrap">
       <img src="jayasanlogo2021-removebg-preview.png" alt="Jayasan logo" />
-      <p class="iso-text"></p>
     </div>
     <p class="iso-text">An ISO Certified Company</p>
-    <p class="iso-text">9000 20000-1 27000-1</p>
   </div>
 
   <!-- Desktop nav -->
-  <nav class="desktop" aria-label="Main navigation">
+  <nav class="desktop">
     <a href="index.html">Home</a>
     <a href="#about">About</a>
     <a href="#services">Services</a>
@@ -33,17 +28,15 @@
     <a href="#contact">Contact</a>
   </nav>
 
-  <!-- menu toggles -->
-  <div class="menu-toggle">
-    <button class="hambutton" id="hambtn" aria-label="Open menu" title="Menu">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
-        <path d="M4 7h16M4 12h16M4 17h16" stroke="white" stroke-width="1.6" stroke-linecap="round"/>
-      </svg>
-    </button>
-  </div>
+  <!-- Hamburger -->
+  <button class="hambutton" id="hambtn" aria-label="Menu">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M4 7h16M4 12h16M4 17h16" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </button>
 
-  <!-- mobile dropdown -->
-  <div class="mobile-menu" id="mobileMenu" role="menu" aria-hidden="true">
+  <!-- Drawer Menu -->
+  <div class="mobile-drawer" id="mobileDrawer">
     <a href="index.html">Home</a>
     <a href="#about">About</a>
     <a href="#services">Services</a>
@@ -53,121 +46,111 @@
   </div>
 </header>
 
-<!-- CAREER FORM SECTION -->
+<!-- Form -->
 <section class="form-section">
   <h2>Join Our Team</h2>
-
   <form id="jobForm">
     <label>Full Name*</label>
-    <input type="text" name="user_name" required placeholder="Enter your full name" />
+    <input type="text" name="user_name" required>
 
     <label>Email Address*</label>
-    <input type="email" name="user_email" required placeholder="Enter your email" />
+    <input type="email" name="user_email" required>
 
     <label>Phone Number*</label>
-    <input type="tel" name="user_number" required placeholder="Enter your phone number" />
+    <input type="tel" name="user_number" required>
 
     <label>Position Applying For*</label>
     <select name="position" required>
       <option value="">Select a role</option>
-      <option value="Help Desk">Help Desk</option>
-      <option value="Network Engineer">Network Engineer</option>
-      <option value="IT Support Engineer">IT Support Engineer</option>
-      <option value="Printer Engineer">Printer Engineer</option>
+      <option>Help Desk</option>
+      <option>Network Engineer</option>
+      <option>IT Support Engineer</option>
+      <option>Printer Engineer</option>
     </select>
 
     <label>Upload Resume (PDF only)*</label>
-    <input type="file" id="resumeFile" accept="application/pdf" required />
+    <input type="file" id="resumeFile" accept="application/pdf" required>
 
     <button class="cta" type="submit">Send Application</button>
   </form>
-
-  <p id="successMsg" style="display:none;">✅ Your application has been submitted successfully. We’ll get back to you soon!</p>
+  <p id="successMsg" style="display:none;color:green;text-align:center;margin-top:10px;">
+    ✅ Your application has been submitted successfully.
+  </p>
 </section>
 
-<!-- FOOTER -->
-<footer id="contact" aria-label="Contact and footer">
-  <img src="An_ISOIEC_Certified_Company-removebg-preview.png" alt="#" class="footer-img">
-  <p><strong>Jayasan Infoware Private Limited</strong> -- Dehradun, Uttarakhand</p>
-  <p>📧 <a href="mailto:info@jayasaninfoware.com" style="color:#a7c4ff">info@jayasaninfoware.com</a> &nbsp; | &nbsp; 📞 +91-XXXXXXXXXX</p>
-  <p>&copy; <span id="year2"></span> Jayasan Infoware Pvt. Ltd. -- All Rights Reserved</p>
+<footer id="contact">
+  <p><strong>Jayasan Infoware Pvt. Ltd.</strong> — Dehradun, Uttarakhand</p>
+  <p>📧 <a href="mailto:info@jayasaninfoware.com" style="color:#a7c4ff">info@jayasaninfoware.com</a> | 📞 +91-XXXXXXXXXX</p>
+  <p>&copy; <span id="year2"></span> Jayasan Infoware Pvt. Ltd.</p>
 </footer>
 
-<!-- ✅ INLINE JS -->
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-  emailjs.init("B9cRp5FtdvX1_JkvJ"); // your EmailJS public key
+document.getElementById("year2").textContent = new Date().getFullYear();
 
-  const form = document.getElementById("jobForm");
-  const resumeFile = document.getElementById("resumeFile");
+emailjs.init("B9cRp5FtdvX1_JkvJ"); // your EmailJS key
+
+// Drawer menu toggle
+const hambtn = document.getElementById("hambtn");
+const drawer = document.getElementById("mobileDrawer");
+hambtn.addEventListener("click", () => {
+  drawer.style.display = drawer.style.display === "flex" ? "none" : "flex";
+});
+drawer.querySelectorAll("a").forEach(a => a.addEventListener("click", ()=>drawer.style.display="none"));
+
+// Job form submission
+document.getElementById("jobForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const file = document.getElementById("resumeFile").files[0];
+  const btn = form.querySelector("button");
   const successMsg = document.getElementById("successMsg");
-  const sendBtn = form.querySelector("button");
 
-  form.addEventListener("submit", async function(e) {
-    e.preventDefault();
-    sendBtn.textContent = "Uploading...";
-    sendBtn.disabled = true;
+  if (!file) return alert("Please upload your resume first.");
+  if (file.size > 5 * 1024 * 1024) return alert("File must be below 5MB.");
 
-    const file = resumeFile.files[0];
-    if (!file) {
-      alert("Please attach your resume first.");
-      sendBtn.textContent = "Send Application";
-      sendBtn.disabled = false;
-      return;
-    }
+  btn.textContent = "Uploading...";
+  btn.disabled = true;
 
-    let fileUrl = "";
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
+  // Convert file to Base64 for Apps Script
+  const base64 = await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(",")[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
 
-      // Upload to mirrored.to
-      const uploadResponse = await fetch("https://www.mirrored.to/upload", {
-        method: "POST",
-        body: formData,
-      });
+  try {
+    const uploadRes = await fetch("https://script.google.com/macros/s/AKfycbxLp9G24-_sBY6du94oezMDRl0pX5dwRjPrIJ4nRdEBJN0I6BlUIYToQ3xjqlBC8tWHlQ/exec", { // 🔹 Replace with your Apps Script URL
+      method: "POST",
+      body: new URLSearchParams({
+        file: base64,
+        filename: file.name,
+        mimetype: file.type
+      }),
+    });
+    const uploadJson = await uploadRes.json();
+    if (!uploadJson.success) throw new Error(uploadJson.error);
 
-      const uploadText = await uploadResponse.text();
-      // Extract link from response HTML
-      const match = uploadText.match(/https:\/\/www\.mirrored\.to\/files\/[^\"]+/);
-      if (match && match[0]) {
-        fileUrl = match[0];
-      } else {
-        throw new Error("Failed to extract file link from mirrored.to");
-      }
+    const fileUrl = uploadJson.fileUrl;
 
-    } catch (err) {
-      alert("Failed to upload resume. Please try again.");
-      console.error(err);
-      sendBtn.textContent = "Send Application";
-      sendBtn.disabled = false;
-      return;
-    }
-
-    sendBtn.textContent = "Sending...";
-
-    const formData = {
+    // Send via EmailJS
+    btn.textContent = "Sending...";
+    await emailjs.send("service_fb7aklu", "template_1tvlztd", {
       user_name: form.user_name.value,
       user_email: form.user_email.value,
       user_number: form.user_number.value,
       position: form.position.value,
       resume_link: fileUrl,
-    };
+    });
 
-    emailjs.send("service_fb7aklu", "template_1tvlztd", formData)
-      .then(() => {
-        successMsg.style.display = "block";
-        sendBtn.textContent = "Send Application";
-        sendBtn.disabled = false;
-        form.reset();
-      })
-      .catch((error) => {
-        alert("Failed to send application. Please try again later.");
-        console.error("EmailJS error:", error);
-        sendBtn.textContent = "Send Application";
-        sendBtn.disabled = false;
-      });
-  });
+    successMsg.style.display = "block";
+    form.reset();
+  } catch (err) {
+    alert("Error: " + err.message);
+  } finally {
+    btn.textContent = "Send Application";
+    btn.disabled = false;
+  }
 });
 </script>
 
