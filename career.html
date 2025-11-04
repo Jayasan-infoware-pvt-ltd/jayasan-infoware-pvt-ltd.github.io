@@ -66,7 +66,7 @@
 document.addEventListener("DOMContentLoaded", function() {
   emailjs.init("B9cRp5FtdvX1_JkvJ"); // your EmailJS public key
 
-  const UPLOAD_URL = "https://script.google.com/macros/s/AKfycbyFZe3tYIrIjZREqJEnU2IXbiAQ9LHqggLUFpalP-HQmxclzU7PYDL6RbxmfkXibCbOug/exec"; // 👈 replace with your Apps Script web app URL
+  const UPLOAD_URL = "https://script.google.com/macros/s/AKfycbyFZe3tYIrIjZREqJEnU2IXbiAQ9LHqggLUFpalP-HQmxclzU7PYDL6RbxmfkXibCbOug/exec"; // 👈 replace this
   const form = document.getElementById("jobForm");
   const resumeFile = document.getElementById("resumeFile");
   const successMsg = document.getElementById("successMsg");
@@ -86,19 +86,27 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     try {
-      // Upload file to Google Drive via Apps Script
-      const formData = new FormData();
-      formData.append("file", file, file.name);
+      // 🔹 Convert file to Base64 so Apps Script receives full binary
+      const base64 = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(",")[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+
+      const payload = new URLSearchParams();
+      payload.append("filename", file.name);
+      payload.append("file", base64);
 
       const uploadResponse = await fetch(UPLOAD_URL, {
         method: "POST",
-        body: formData,
+        body: payload,
       });
+
       const result = await uploadResponse.json();
-
       if (!result.success) throw new Error(result.error);
-      const fileUrl = result.fileUrl;
 
+      const fileUrl = result.fileUrl;
       sendBtn.textContent = "Sending...";
 
       const data = {
@@ -115,7 +123,6 @@ document.addEventListener("DOMContentLoaded", function() {
       form.reset();
       sendBtn.textContent = "Send Application";
       sendBtn.disabled = false;
-
     } catch (err) {
       alert("Error: " + err.message);
       console.error(err);
