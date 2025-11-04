@@ -17,7 +17,6 @@
   <div class="brand" aria-label="Jayasan brand">
     <div class="logo-wrap">
       <img src="jayasanlogo2021-removebg-preview.png" alt="Jayasan logo" />
-      <p class="iso-text"></p>
     </div>
     <p class="iso-text">An ISO Certified Company</p>
     <p class="iso-text">9000 20000-1 27000-1</p>
@@ -33,7 +32,7 @@
     <a href="#contact">Contact</a>
   </nav>
 
-  <!-- menu toggles -->
+  <!-- Menu toggle -->
   <div class="menu-toggle">
     <button class="hambutton" id="hambtn" aria-label="Open menu" title="Menu">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -42,7 +41,7 @@
     </button>
   </div>
 
-  <!-- mobile dropdown -->
+  <!-- Mobile dropdown -->
   <div class="mobile-menu" id="mobileMenu" role="menu" aria-hidden="true">
     <a href="index.html">Home</a>
     <a href="#about">About</a>
@@ -90,9 +89,9 @@
 <!-- FOOTER -->
 <footer id="contact" aria-label="Contact and footer">
   <img src="An_ISOIEC_Certified_Company-removebg-preview.png" alt="#" class="footer-img">
-  <p><strong>Jayasan Infoware Private Limited</strong> -- Dehradun, Uttarakhand</p>
+  <p><strong>Jayasan Infoware Private Limited</strong> — Dehradun, Uttarakhand</p>
   <p>📧 <a href="mailto:info@jayasaninfoware.com" style="color:#a7c4ff">info@jayasaninfoware.com</a> &nbsp; | &nbsp; 📞 +91-XXXXXXXXXX</p>
-  <p>&copy; <span id="year2"></span> Jayasan Infoware Pvt. Ltd. -- All Rights Reserved</p>
+  <p>&copy; <span id="year2"></span> Jayasan Infoware Pvt. Ltd. — All Rights Reserved</p>
 </footer>
 
 <!-- ✅ JS SCRIPT -->
@@ -100,41 +99,31 @@
 document.addEventListener("DOMContentLoaded", function() {
   emailjs.init("B9cRp5FtdvX1_JkvJ"); // ✅ your EmailJS public key
 
-  const UPLOAD_URL = "https://script.google.com/macros/s/AKfycbwvuIMAbn4DMzVhYkBuei_SToYEmFT07G8Ol10mnHn4IctNpqreQ4JdkOm1qFyrTc02eQ/exec"; // ✅ your Google Script URL
+  // ✅ replace with your new Apps Script URL after deploying
+  const UPLOAD_URL = "https://script.google.com/macros/s/AKfycbyYCkH8bSA-GdDmGSiS2Tprivg5C60oadm9eqz93KuS1iv2LAH7zMKK0O1h9vFSYM5J/exec";
 
   const form = document.getElementById("jobForm");
   const resumeFile = document.getElementById("resumeFile");
   const successMsg = document.getElementById("successMsg");
   const sendBtn = form.querySelector("button");
 
-  // 🔹 Upload to Google Drive
+  // ✅ Upload directly to Google Drive (no FileReader)
   async function uploadFileToDrive(file) {
-    const reader = new FileReader();
+    const formData = new FormData();
+    formData.append("file", file, file.name);
 
-    return new Promise((resolve, reject) => {
-      reader.onload = async () => {
-        try {
-          const base64 = reader.result; // includes data:application/pdf;base64,...
-          const formData = new FormData();
-          formData.append("file", base64);
-          formData.append("filename", file.name);
-          formData.append("mimetype", file.type);
-
-          const response = await fetch(UPLOAD_URL, { method: "POST", body: formData });
-          const result = await response.json();
-          if (!result.success) throw new Error(result.error || "Upload failed");
-
-          resolve(result);
-        } catch (err) {
-          reject(err);
-        }
-      };
-      reader.onerror = () => reject(reader.error);
-      reader.readAsDataURL(file);
+    const response = await fetch(UPLOAD_URL, {
+      method: "POST",
+      body: formData
     });
+
+    const result = await response.json();
+    if (!result.success) throw new Error(result.error || "Upload failed");
+
+    return result;
   }
 
-  // 🔹 Form submission
+  // ✅ Handle form submission
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     sendBtn.textContent = "Uploading...";
