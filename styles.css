@@ -382,3 +382,9 @@ font-family: "Poppins", sans-serif;
   .govt-section h1 { font-size: 1.5rem; }
   .govt-logos img { width: 100px; height: 100px; padding: 12px; }
 }
+/* Force 2 logos per row on mobile */
+@media (max-width:600px){
+  .govt-logos {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  }
