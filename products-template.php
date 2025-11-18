@@ -1,0 +1,85 @@
+<?php
+/**
+ * Template Name: Jayasan Products Page
+ */
+?>
+
+<!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+<head>
+<meta charset="<?php bloginfo('charset'); ?>">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title><?php wp_title(); ?></title>
+
+<!-- Load Your CSS -->
+<style>
+<?php include get_stylesheet_directory() . '/style-products.css'; ?>
+</style>
+
+<?php wp_head(); ?>
+</head>
+
+<body <?php body_class(); ?>>
+
+<!-- HEADER -->
+<header>
+  <div class="brand">
+      <div class="logo-wrap">
+          <img src="<?php echo get_stylesheet_directory_uri(); ?>/images/logo.png" alt="Logo">
+          <span class="iso-text">ISO 9001:2015 Certified</span>
+      </div>
+      <h1>Jayasan Infoware Pvt. Ltd.</h1>
+  </div>
+
+  <nav class="desktop">
+      <a href="<?php echo home_url(); ?>">Home</a>
+      <a href="#">Products</a>
+      <a href="<?php echo home_url('/contact'); ?>">Contact</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+    <h2>Our IT Products</h2>
+    <p>High-quality keyboards and mouse – built for performance and durability.</p>
+</div>
+
+<!-- PRODUCT GRID -->
+<section class="services">
+    <h2 class="section-title">Available Products</h2>
+
+    <div class="service-grid">
+
+        <!-- Product 1: Keyboard -->
+        <div class="service-card">
+            <img src="<?php echo get_stylesheet_directory_uri(); ?>/images/keyboard1.jpg" 
+                 style="width:100%; border-radius:10px; margin-bottom:10px;">
+            <h3>Wireless Keyboard MK-100</h3>
+        </div>
+
+        <!-- Product 2: Keyboard -->
+        <div class="service-card">
+            <img src="<?php echo get_stylesheet_directory_uri(); ?>/images/keyboard2.jpg" 
+                 style="width:100%; border-radius:10px; margin-bottom:10px;">
+            <h3>Mechanical Keyboard Pro-X</h3>
+        </div>
+
+        <!-- Product 3: Mouse -->
+        <div class="service-card">
+            <img src="<?php echo get_stylesheet_directory_uri(); ?>/images/mouse1.jpg" 
+                 style="width:100%; border-radius:10px; margin-bottom:10px;">
+            <h3>Precision Mouse 1600 DPI</h3>
+        </div>
+
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <p>© <?php echo date("Y"); ?> Jayasan Infoware Pvt. Ltd.</p>
+</footer>
+
+<?php wp_footer(); ?>
+</body>
+</html>
