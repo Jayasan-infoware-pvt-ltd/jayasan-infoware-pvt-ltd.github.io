@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jayasan Infoware - Technology Beyond Comparison</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-100px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(100px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes fadeOut {
+      from { opacity: 1; transform: scale(1); }
+      to { opacity: 0; transform: scale(0.95); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+    @keyframes blink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+
+    .animate-slide-in-left { animation: slideInLeft 0.8s ease-out forwards; }
+    .animate-slide-in-right { animation: slideInRight 0.8s ease-out forwards; }
+    .animate-fade-out { animation: fadeOut 0.8s ease-out forwards; }
+    .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; opacity: 0; }
+    .animate-float { animation: float 6s ease-in-out infinite; }
+
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      background-color: #2563eb;
+      margin-left: 4px;
+      animation: blink 1s infinite;
+      vertical-align: middle;
+    }
+
+    .card-hover { transition: all 0.3s ease; }
+    .card-hover:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(59,130,246,0.15);
+    }
+
+    .hidden-content { display: none; }
+    .show-content { display: block; }
+
+    /* 🔥 FIX SPACE ISSUE */
+    #namesContainer {
+      transition: margin-bottom 0.4s ease;
+    }
+    #namesContainer.hide-space {
+      margin-bottom: 0 !important;
+    }
+  </style>
+</head>
+
+<body class="bg-white text-gray-800">
+
+<!-- ANIMATED BACKGROUND -->
+<div class="fixed inset-0 overflow-hidden pointer-events-none -z-10">
+  <div class="absolute top-0 right-0 w-96 h-96 bg-blue-100 rounded-full filter blur-3xl opacity-30 animate-float"></div>
+  <div class="absolute bottom-0 left-0 w-96 h-96 bg-blue-200 rounded-full filter blur-3xl opacity-20 animate-float"></div>
+  <div class="absolute top-1/2 left-1/3 w-96 h-96 bg-blue-50 rounded-full filter blur-3xl opacity-40 animate-float"></div>
+</div>
+
+<!-- NAVBAR -->
+<header class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-blue-100">
+  <nav class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <svg class="w-12 h-12" viewBox="0 0 120 120">
+        <path d="M 30 40 Q 60 20, 80 50" stroke="#DC143C" stroke-width="8" fill="none" stroke-linecap="round"/>
+        <path d="M 30 40 Q 60 60, 80 50" stroke="#2563eb" stroke-width="8" fill="none" stroke-linecap="round"/>
+        <circle cx="55" cy="35" r="6" fill="#2563eb"/>
+      </svg>
+      <div>
+        <div class="text-xl font-bold text-blue-600">JAYASAN</div>
+        <div class="text-xs text-gray-500">Technology Beyond Comparison</div>
+      </div>
+    </div>
+
+    <div class="hidden md:flex gap-8">
+      <a href="#services" class="text-gray-700 hover:text-blue-600 font-medium">Services</a>
+      <a href="#clients" class="text-gray-700 hover:text-blue-600 font-medium">Clients</a>
+      <a href="#contact" class="text-gray-700 hover:text-blue-600 font-medium">Contact</a>
+    </div>
+
+    <button class="hidden md:block px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 shadow-md">
+      Get Started
+    </button>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="relative pt-40 pb-20 px-6 text-center min-h-screen flex items-center justify-center">
+  <div class="max-w-5xl mx-auto w-full">
+    
+    <div id="animatedSequence" class="flex flex-col items-center justify-center">
+
+      <!-- Names Animation -->
+      <div id="namesContainer" class="opacity-0 mb-12">
+        <div class="flex flex-wrap justify-center items-center gap-2 md:gap-4">
+          <div id="jayasanText">
+            <h1 class="text-6xl md:text-8xl font-bold bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent">
+              jayasan
+            </h1>
+          </div>
+
+          <div id="infowares">
+            <h1 class="text-6xl md:text-8xl font-bold bg-gradient-to-r from-blue-500 to-blue-600 bg-clip-text text-transparent">
+              infoware
+            </h1>
+          </div>
+        </div>
+      </div>
+
+      <!-- Typewriter -->
+      <div id="typewriterContainer">
+        <p class="text-3xl md:text-5xl font-semibold text-gray-800">
+          <span id="typedText"></span><span class="cursor"></span>
+        </p>
+      </div>
+
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="mainContent" class="hidden-content text-center">
+      <span class="text-blue-600 font-semibold text-sm bg-blue-50 px-4 py-2 rounded-full border border-blue-200 inline-block mb-6">
+        Welcome to Innovation
+      </span>
+      
+      <h1 class="text-5xl md:text-7xl font-bold mt-6 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-700 bg-clip-text text-transparent">
+        Jayasan Infoware
+      </h1>
+
+      <p class="text-2xl text-gray-700 font-semibold mt-4">Professional & Technology Beyond Comparison</p>
+
+      <p class="text-lg text-gray-600 mt-6 max-w-3xl mx-auto">
+        Trusted managed services & facility maintenance across 17+ states in India since 2011.
+      </p>
+
+      <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+        <button class="px-8 py-4 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 shadow-lg">
+          Explore Services
+        </button>
+        <button class="px-8 py-4 border-2 border-blue-600 text-blue-600 rounded-xl font-semibold hover:bg-blue-50">
+          Learn More
+        </button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SERVICES, CLIENTS... (unchanged) -->
+
+<script>
+  const fullText = "technology beyond comparison";
+  const typedText = document.getElementById('typedText');
+  const namesContainer = document.getElementById('namesContainer');
+  const jayasanText = document.getElementById('jayasanText');
+  const infowares = document.getElementById('infowares');
+  const animatedSequence = document.getElementById('animatedSequence');
+  const mainContent = document.getElementById('mainContent');
+  
+  let charIndex = 0;
+
+  function showNames() {
+    namesContainer.style.opacity = '1';
+    jayasanText.classList.add('animate-slide-in-left');
+    infowares.classList.add('animate-slide-in-right');
+    setTimeout(typeCharacters, 500);
+  }
+
+  function typeCharacters() {
+    charIndex = 0;
+    typeCharacter();
+  }
+
+  function typeCharacter() {
+    if (charIndex < fullText.length) {
+      typedText.textContent += fullText.charAt(charIndex);
+      charIndex++;
+      setTimeout(typeCharacter, 60);
+    } else {
+      setTimeout(hideAnimationShowMain, 500);
+    }
+  }
+
+  function hideAnimationShowMain() {
+    animatedSequence.classList.add('animate-fade-out');
+
+    // 🔥 Remove extra spacing under typewriter animation
+    namesContainer.classList.add('hide-space');
+
+    setTimeout(() => {
+      animatedSequence.classList.add('hidden-content');
+      mainContent.classList.remove('hidden-content');
+      mainContent.classList.add('show-content', 'animate-fade-in-up');
+    }, 800);
+  }
+
+  showNames();
+</script>
+
+</body>
+</html>
